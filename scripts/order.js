@@ -21,4 +21,18 @@ function addOrder() {
    console.log(amount, productname, price);
    const table = document.getElementById('tableorder');
    const row = document.createElement('tr');
+
+    var cell1 = document.createElement("td");
+    var cell2 = document.createElement("td");
+    var cell3 = document.createElement("td");
+
+   cell1.textContent = amount;
+   cell2.textContent = productname;
+   cell3.textContent = price;
+
+   row.appendChild(cell1);
+   row.appendChild(cell2);
+   row.appendChild(cell3);
+
+   table.appendChild(row);
 }
