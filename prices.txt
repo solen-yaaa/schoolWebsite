@@ -1,0 +1,27 @@
+Skulpturen Preise
+
+cat-elegant 40€
+cat-detailed 55€
+cat-cute 35€
+
+cross 40€
+gravestone 35€
+coffin-normal 40€
+gravestone-gold 50€
+gravestone-white 55€
+raven 45€
+
+blackwhite-dragon 60€
+dragon-detailed 75€
+dragon-brown 50€
+dragon-cake 50€
+
+rose-black 45€
+rose-brown 55€
+rose-blackwhite 50€
+
+gargoyle-head 40€
+gargoyle-wings 55€
+gargoyle 45€
+
+CUSTOM Preis variiert
