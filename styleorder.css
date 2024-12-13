@@ -111,10 +111,6 @@ label {
   display: block;
 }
 
-input {
-}
-
-
 .grid {
   display: grid;
   grid-template-columns: auto auto;
@@ -141,8 +137,9 @@ input {
     font-family: garamond;
 }
 
-table {
-
+#tableorder {
+  border: 2px;
+  border-color: white;
 }
 
 .ordersummary {
