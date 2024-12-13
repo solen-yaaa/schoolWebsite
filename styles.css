@@ -1,0 +1,182 @@
+body {
+   overflow-x: hidden;
+}
+
+div#bg {
+   background-image: url(back.jpg);
+   background-size: 100% 100%;
+   position: fixed;
+   bottom: 0;
+   top: 0;
+   left: 0;
+   right: 0;
+   z-index: -1000;
+   pointer-events: none;
+   }
+   
+.headline {
+   font-family: garamond;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-size: 180%;
+    position: relative;
+    padding-top: 2%;
+
+    h2 {
+      font-size: 140%;
+    }
+   }
+
+.navbar {
+  position: fixed;
+  top: 0;
+  background-color: #000000;
+  width: 100%;
+  font-family: garamond;
+  font-size: 25px;
+  z-index:10;
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+  }
+
+  ul {
+    display: flex;
+    list-style: none;
+  }
+
+  li {
+      margin-left: 10%;
+      
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  a:hover {
+    color: grey;
+    text-decoration: none;
+  }
+}
+
+.text {
+  font-family: garamond;
+  font-size: 27px;
+  font-weight: bold;
+  padding-top: 1%;
+  
+  .blackt {
+    color:black;
+  }
+
+  .whitet {
+    color: white;
+  }
+}
+
+.rechteck {
+  width: 80%;
+  height: auto;
+  display: flex;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-radius: 50px;
+  margin-bottom: 5%;
+}
+
+
+.pic_left {
+  .box_left {
+    display: flex;
+    width: 25%;
+    align-items: center;
+    padding-left: 2%;
+ }
+ .small {
+    width: 20%;
+ }
+
+ .box_right {
+    width: 75%;
+    padding-top: 1%;
+    padding-left: 2%;
+ }
+}
+
+.pic_right {
+  .box_left{
+    width: 75%;
+    padding-top: 1%;
+    padding-left: 5%;
+  }
+
+  .box_right {
+    display: flex;
+    width: 25%;
+    align-items: center;
+    padding-left: 2%;
+ }
+}
+
+.white {
+  background-color: rgb(255, 255, 255, 0.5);
+}
+
+.black{
+  background-color: rgb(0,0,0,0.5);
+}
+
+.none {
+  background-color: none;
+}
+
+.pic{
+  width: 100%;
+  height: auto;
+}
+
+.pics{
+  width: 80%;
+  border-radius: 7%;
+  height: auto;
+}
+
+.header {
+  font-family: garamond;
+  font-size: 30px;
+  font-weight: 900;
+  padding-top: 1%;
+
+  .blackh {
+    color:black;
+  }
+
+  .whiteh {
+    color:white;
+  }
+}
+
+.impressum {
+  width: 100%;
+  height: auto;
+  display: flex;
+  background-color: black;
+  bottom: 0;
+  margin-top:5%;
+
+  .text {
+    font-size: 20px;
+  }
+}
+
+.box_left {
+  padding: 5%;
+}
+
+.box_right {
+  padding: 5%;
+}

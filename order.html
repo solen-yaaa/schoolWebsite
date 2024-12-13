@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="impressum_navbar.css">
+    <link rel="stylesheet" href="styleorder.css">
+    <title>Bestellen</title>
+</head>
+<body>
+
+    <div id=bg></div>
+    <div class="headline">
+        <h1>Deine Bestellung</h1>
+    </div>
+    <div class="navbar">
+        <nav>
+            <ul>
+                <li><a href="index.html">Homepage</a></li>
+                <li><a href="products.html">Produkte</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="field">
+            <div class="bigbox">
+                <div class="left">
+                    <form id="orderForm">
+                        <div class="grid">
+                            <div class="grid-item">
+                                <input type="text" id="firstname" placeholder="Vorname">
+                            </div>
+                            <div class="grid-item">
+                                <input type="text" id="lastname" placeholder="Nachname"> 
+                            </div>
+                            <div class="grid-item">
+                                <input type="text" id="street" placeholder="Straße"> 
+                            </div>
+                            <div class="grid-item">
+                                <input type="number" id="number" placeholder="Hausnummer"> 
+                            </div>
+                            <div class="grid-item">
+                                <input type="text" id="plz" placeholder="PLZ">
+                            </div>
+                            <div class="grid-item">
+                                <input type="text" id="city" placeholder="Stadt">  
+                            </div>
+                            <div class="grid-item">
+                                <input type="mail" id="email" placeholder="E-Mail"> 
+                            </div>
+                         </div>
+                       </form>
+                    <div class="ordersummary" id="selectedValue">
+
+                        <label class="text" for="select">Auswahl:</label>
+                        <input type="number" id="amount" placeholder="Anzahl">
+                        <select name="Skulptur" id="select">
+                            <option value="cat-elegant">cat-elegant</option>
+                            <option value="cat-detailed">cat-detailed</option>
+                             <option value="cat-cute">cat-cute</option>
+                            <option value="cross">cross</option>
+                            <option value="gravestone">gravestone</option>
+                            <option value="coffin-normal">coffin-normal</option>
+                            <option value="gravestone-gold">gravestone-gold</option>
+                            <option value="gravestone-white">gravestone-white</option>
+                            <option value="raven">raven</option>
+                            <option value="blackwhite-dragon">blackwhite-dragon</option>
+                            <option value="dragon-brown">dragon-brown</option>
+                            <option value="dragon-detailed">dragon-detailed</option>
+                            <option value="dragon-cake">dragon-cake</option>
+                            <option value="rose-black">rose-black</option>
+                            <option value="rose-brown">rose-brown</option>
+                            <option value="rose-blackwhite">rose-blackwhite</option>
+                            <option value="gargoyle-head">gargoyle-head</option>
+                            <option value="gargoyle-wings">gargoyle-wings</option>
+                            <option value="gargoyle">gargoyle</option>
+                            <option value="CUSTOM">CUSTOM</option>
+                        </select> 
+            
+                        <button type="button" onclick="addOrder()">Hinzufügen</button> 
+                    </div>
+                </div>
+
+                <div class="right">
+                    <table class="text">
+                        <tr>
+                           <th>Anzahl</th>
+                           <th>Produkt</th>
+                           <th>Preis</th>
+                        </tr>
+                        <tr>
+                            <td>Beispiel</td>
+                            <td>Beispiel</td>
+                            <td>Beispiel</td>
+                        </tr>
+                        <tr>
+                            <td>bro</td>
+                        </tr>
+                    </table> 
+                </div>
+            </div>
+
+
+        
+    </div>
+
+
+    <div class="impressum pics_right">
+        <div class="box_left">
+         <div class="text">
+             <p class="whitet">
+                Hell's Chocolate <br>
+                <br>
+                Am Seidenen Faden 1-7<br>
+                00666 ############<br>
+                <br>
+                <br>
+                Kontakt: <br>
+                Solenya Sanchez<br>
+                <br>
+                E-Mail: solenya.sanchez@chocolate.hell <br>
+                Tel.: +49 666 00815 
+            </p>
+        </div>
+    </div>
+        <div class="box_right">
+            <img src="certs.PNG" alt="Zertifikate" class="pic">
+        </div>
+    </div>
+    <script src="../order.js"></script>
+</body>
+</html>
