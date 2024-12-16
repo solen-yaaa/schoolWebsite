@@ -54,7 +54,8 @@
                     <div class="ordersummary" id="selectedValue">
 
                         <label class="text" for="select">Auswahl:</label>
-                        <input type="number" id="amount" placeholder="Anzahl"> <!--darf nicht leer sein. Noch hinzufügen-->
+                        <input type="number" id="amount" min="0" placeholder="Anzahl"> <!--darf nicht leer sein. Noch hinzufügen-->
+                        <span id="error-message" style="color:red; display: none;">Dieses Feld darf nicht leer sein.</span>
                         <select name="Skulptur" id="select">
                             <option value="cat-elegant">cat-elegant</option>
                             <option value="cat-detailed">cat-detailed</option>
