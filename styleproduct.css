@@ -30,6 +30,7 @@ body {
  .navbar {
    position: fixed;
    top: 0;
+   left: 0;
    background-color: #000000;
    width: 100%;
    font-family: garamond;
@@ -174,6 +175,7 @@ body {
    display: flex;
    background-color: black;
    bottom: 0;
+   left: 0;
    margin-top:5%;
    
    .text {
