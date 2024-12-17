@@ -54,7 +54,7 @@
                     <div class="ordersummary" id="selectedValue">
 
                         <label class="text" for="select">Auswahl:</label>
-                        <input type="number" id="amount" min="0" placeholder="Anzahl"> 
+                        <input type="int" id="amount" min="0" placeholder="Anzahl"> 
                         <select name="Skulptur" id="select">
                             <option value="cat-elegant">cat-elegant</option>
                             <option value="cat-detailed">cat-detailed</option>
@@ -79,7 +79,7 @@
                         </select> 
             
                         <button type="button" onclick="addOrder()">Hinzufügen</button> 
-                        <span id="error-message" style="color:red; display: none;">Bitte Zahl eingeben</span>
+                        <span id="error-message" style="color:red; display: none;">Bitte Zahl zwischen 1 und 10 eingeben</span>
                     </div>
                 </div>
 
@@ -92,6 +92,7 @@
                            <th>Gesamt</th>
                         </tr>
                     </table> 
+                    <div id="total" class="text">0 €</div>
                 </div>
             </div>
 
