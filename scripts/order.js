@@ -1,6 +1,7 @@
 const demoData = [
     { name: "cat-elegant", price: 40 },
     { name: "cat-detailed", price: 55 },
+    { name: "cat-cute", price: 35 },
     { name: "cross", price: 40 },
     { name: "gravestone", price: 35 },
     { name: "coffin-normal", price: 40 },
@@ -21,11 +22,29 @@ const demoData = [
 const selectedValue = document.getElementById("selectedValue");
 
 // Funktion zu hinzufügen vom HTML
-function addOrder() {
+/*function addOrder() {
     if(getAmount() !== "") {
+        var errorMsg = document.getElementById("error-message");
         var value = getDataByName(getSelectValue());
         addOrderList(getAmount(), value.name, value.price)
         //label mit Ausgabe: darf nicht leer sein einfügen
+}
+}*/
+
+
+
+function addOrder() {
+    // Holt die Fehlermeldung
+    var errorMsg = document.getElementById("error-message");
+    var value = getDataByName(getSelectValue());
+    var amount = getAmount();
+    // Überprüft, ob das Eingabefeld leer ist
+    if (amount !== "" && amount !== "0" && !isNaN(amount) && Number.isInteger(Number(amount)))  {
+        var value = getDataByName(getSelectValue());
+        addOrderList(getAmount(), value.name, value.price);
+        errorMsg.style.display = "none"; // Blendet die Fehlermeldung aus, falls Eingabe gültig ist
+    } else {
+        errorMsg.style.display = "block"; // Zeigt die Fehlermeldung an, wenn Eingabe leer ist
     }
 }
 
@@ -36,7 +55,7 @@ function getSelectValue() {
 
 // Gibt Anzahl aus 
 function getAmount() {
-    return document.getElementById('amount').value;
+    return parseInt(document.getElementById('amount').value); 
 }
 
 // Sucht das Produkt aus demoDaten über den Namen
@@ -67,10 +86,12 @@ function renderTable() {
         var cell2 = document.createElement("td");
         var cell3 = document.createElement("td");
         var cell4 = document.createElement("td");
+        var cell5 = document.createElement("td");
 
         cell1.textContent = amount + " x";
         cell2.textContent = productname;
         cell3.textContent = price + " €";
+        cell4.textContent = (price * amount) + " € "
 
         // Button zum Löschen des Produkts
         var button = document.createElement("button");
@@ -82,12 +103,13 @@ function renderTable() {
             };
         })(i);
 
-        cell4.appendChild(button);
+        cell5.appendChild(button);
 
         row.appendChild(cell1);
         row.appendChild(cell2);
         row.appendChild(cell3);
         row.appendChild(cell4);
+        row.appendChild(cell5);
         table.appendChild(row);
     }
 }
