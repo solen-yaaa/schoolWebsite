@@ -39,11 +39,12 @@ function addOrder() {
     var value = getDataByName(getSelectValue());
     var amount = getAmount();
     // Überprüft, ob das Eingabefeld leer ist
-    if (amount !== "" && amount !== "0" && !isNaN(amount) && Number.isInteger(Number(amount)))  {
+    if (amount !== "" && amount !== "0" && !isNaN(amount) && Number.isInteger(Number(amount)) && amount < 11 && amount > 0)  {
         var value = getDataByName(getSelectValue());
         addOrderList(getAmount(), value.name, value.price);
         errorMsg.style.display = "none"; // Blendet die Fehlermeldung aus, falls Eingabe gültig ist
-    } else {
+    }   
+    else {
         errorMsg.style.display = "block"; // Zeigt die Fehlermeldung an, wenn Eingabe leer ist
     }
 }
@@ -99,7 +100,8 @@ function renderTable() {
 
         button.onclick = (function(index) {
             return function() {
-                deleteOrderByIndex(index); // Löscht das Produkt anhand des Index
+                deleteOrderByIndex(index);
+                getTotalPrice();  // Löscht das Produkt anhand des Index
             };
         })(i);
 
@@ -112,6 +114,7 @@ function renderTable() {
         row.appendChild(cell5);
         table.appendChild(row);
     }
+    getTotalPrice(); 
 }
 
 // Holt die Bestellliste aus dem LocalStorage
@@ -143,3 +146,21 @@ function addOrderList(amount, name, price) {
 
 // Automatisch Tabellen Laden beim Aufruf der Seite 
 document.addEventListener('DOMContentLoaded', renderTable);
+
+// Gesamtpreis ermitteln
+function getTotalPrice() {
+    const orderList = getOrderList();
+    let totalPrice = 0;
+
+    console.log(orderList);
+    for (let i = 0; i < orderList.length; i++) {
+        totalPrice += orderList[i].price * orderList[i].amount;
+    }
+    document.getElementById("total").textContent = `${totalPrice.toFixed(2)} €`;
+}
+
+window.onload = function() {
+    getTotalPrice(); // Ruft getTotalPrice() beim Laden der Seite auf
+};
+
+
