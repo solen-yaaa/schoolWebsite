@@ -25,3 +25,19 @@ gargoyle-wings 55€
 gargoyle 45€
 
 CUSTOM Preis variiert
+
+function addOrder() {
+    // Holt die Fehlermeldung
+    var errorMsg = document.getElementById("error-message");
+    var value = getDataByName(getSelectValue());
+    var amount = getAmount();
+    // Überprüft, ob das Eingabefeld leer ist
+    if (amount !== "" && amount !== "0" && !isNaN(amount) && Number.isInteger(amount) && amount < 11 && amount > 0)  {
+        var value = getDataByName(getSelectValue());
+        addOrderList(getAmount(), value.name, value.price);
+        errorMsg.style.display = "none"; // Blendet die Fehlermeldung aus, falls Eingabe gültig ist
+    }   
+    else {
+        errorMsg.style.display = "block"; // Zeigt die Fehlermeldung an, wenn Eingabe leer ist
+    }
+}
