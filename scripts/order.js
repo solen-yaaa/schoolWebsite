@@ -7,6 +7,7 @@ const demoData = [
     { name: "coffin-normal", price: 40 },
     { name: "gravestone-gold", price: 50 },
     { name: "gravestone-white", price: 55 },
+    { name: "raven", price: 45 },
     { name: "blackwhite-dragon", price: 60 },
     { name: "dragon-detailed", price: 75 },
     { name: "dragon-brown", price: 50 },
@@ -16,36 +17,42 @@ const demoData = [
     { name: "rose-blackwhite", price: 50 },
     { name: "gargoyle-head", price: 40 },
     { name: "gargoyle-wings", price: 55 },
-    { name: "gargoyle", price: 45 }
+    { name: "gargoyle", price: 45 },
+    { name: "CUSTOM", price: 250 }
 ];
 
 const selectedValue = document.getElementById("selectedValue");
 
-// Funktion zu hinzufügen vom HTML
-/*function addOrder() {
-    if(getAmount() !== "") {
-        var errorMsg = document.getElementById("error-message");
-        var value = getDataByName(getSelectValue());
-        addOrderList(getAmount(), value.name, value.price)
-        //label mit Ausgabe: darf nicht leer sein einfügen
-}
-}*/
-
-
-
 function addOrder() {
     // Holt die Fehlermeldung
     var errorMsg = document.getElementById("error-message");
+    var errorMsg2 = document.getElementById("error-message2");
     var value = getDataByName(getSelectValue());
     var amount = getAmount();
-    // Überprüft, ob das Eingabefeld leer ist
-    if (amount !== "" && amount !== "0" && !isNaN(amount) && Number.isInteger(Number(amount)) && amount < 11 && amount > 0)  {
-        var value = getDataByName(getSelectValue());
-        addOrderList(getAmount(), value.name, value.price);
-        errorMsg.style.display = "none"; // Blendet die Fehlermeldung aus, falls Eingabe gültig ist
-    }   
+    var converttoint = parseInt(amount);
+    var int = Number.isInteger(converttoint);
+    var includespoint = amount.includes('.');
+    if (int == true){
+        if (includespoint == false){
+            // Überprüft, ob das Eingabefeld leer ist
+            if (amount !== "" && amount !== "0" && !isNaN(amount) && amount < 11 && amount > 0)  {
+                var value = getDataByName(getSelectValue());
+                addOrderList(getAmount(), value.name, value.price);
+                errorMsg.style.display = "none"; 
+                errorMsg2.style.display = "none";// Blendet die Fehlermeldung aus, falls Eingabe gültig ist
+            }
+            else {
+                errorMsg.style.display = "block"; // Zeigt die Fehlermeldung an, wenn Eingabe leer ist
+            }
+        }
+        else{
+            errorMsg2.style.display = "block"; // Fehlermeldung anpassen
+        }
+        
+
+    }
     else {
-        errorMsg.style.display = "block"; // Zeigt die Fehlermeldung an, wenn Eingabe leer ist
+        errorMsg2.style.display = "block"; // Fehlermeldung anpassen
     }
 }
 
@@ -56,7 +63,7 @@ function getSelectValue() {
 
 // Gibt Anzahl aus 
 function getAmount() {
-    return parseInt(document.getElementById('amount').value); 
+    return document.getElementById('amount').value; 
 }
 
 // Sucht das Produkt aus demoDaten über den Namen
