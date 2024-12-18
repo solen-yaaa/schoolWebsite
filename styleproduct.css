@@ -183,4 +183,9 @@ body {
    }
  }
 
+ .daten {
+  text-decoration: none;
+  font-family: garamond;
+  color: rgb(170, 170, 170);
+}
 

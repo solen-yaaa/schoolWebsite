@@ -182,3 +182,9 @@ div#bg {
 .box_right {
   padding: 5%;
 }
+
+.daten {
+  text-decoration: none;
+  font-family: garamond;
+  color: rgb(170, 170, 170);
+}
