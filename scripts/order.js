@@ -29,32 +29,36 @@ function addOrder() {
     var errorMsg2 = document.getElementById("error-message2");
     var value = getDataByName(getSelectValue());
     var amount = getAmount();
-    var converttoint = parseInt(amount);
-    var int = Number.isInteger(converttoint);
-    var includespoint = amount.includes('.');
-    if (int == true){
-        if (includespoint == false){
-            // Überprüft, ob das Eingabefeld leer ist
-            if (amount !== "" && amount !== "0" && !isNaN(amount) && amount < 11 && amount > 0)  {
-                var value = getDataByName(getSelectValue());
-                addOrderList(getAmount(), value.name, value.price);
-                errorMsg.style.display = "none"; 
-                errorMsg2.style.display = "none";// Blendet die Fehlermeldung aus, falls Eingabe gültig ist
-            }
-            else {
-                errorMsg.style.display = "block"; // Zeigt die Fehlermeldung an, wenn Eingabe leer ist
-            }
-        }
-        else{
-            errorMsg2.style.display = "block"; // Fehlermeldung anpassen
-        }
-        
+    var includesPoint = amount.includes('.'); // Überprüft, ob die Eingabe einen Punkt enthält
 
-    }
-    else {
-        errorMsg2.style.display = "block"; // Fehlermeldung anpassen
+    // Überprüft, ob die Eingabe eine gültige Zahl ist
+    var isNumber = !isNaN(amount);
+
+    // Wenn es eine Zahl ist und keine Dezimalzahl (also eine Ganzzahl)
+    if (isNumber) {
+        if (includesPoint) {
+            // Wenn es sich um eine Kommazahl handelt
+            errorMsg.style.display = "none";
+            errorMsg2.style.display = "block"; // Fehlermeldung für Kommazahl
+        } else {
+            // Wenn es sich um eine Ganzzahl handelt und der Wert im zulässigen Bereich ist
+            var amountInt = parseInt(amount);
+            if (amountInt > 0 && amountInt < 11) {
+                var value = getDataByName(getSelectValue());
+                addOrderList(amount, value.name, value.price);
+                errorMsg.style.display = "none"; 
+                errorMsg2.style.display = "none"; // Blendet die Fehlermeldung aus, falls Eingabe gültig ist
+            } else {
+                errorMsg.style.display = "block"; // Zeigt die Fehlermeldung an, wenn die Zahl nicht im Bereich ist
+                errorMsg2.style.display = "none";
+            }
+        }
+    } else {
+        errorMsg.style.display = "block"; // Zeigt eine allgemeine Fehlermeldung, wenn die Eingabe keine Zahl ist
+        errorMsg2.style.display = "none";
     }
 }
+
 
 // Gibt den wert der Ausgewählt wurde
 function getSelectValue() {
@@ -169,5 +173,117 @@ function getTotalPrice() {
 window.onload = function() {
     getTotalPrice(); // Ruft getTotalPrice() beim Laden der Seite auf
 };
+/*-----MEIN--EIGENER--VERSUCH----------------------------------------------------------- */
+
+const validators = {
+    firstname: value => /^[a-zA-Z]+$/.test(value),
+    lastname: value => /^[a-zA-Z]+$/.test(value),
+    cityName: value => /^[a-zA-Z]+$/.test(value),
+    plz: value => /^[0-9]{5}$/.test(value),
+    street: value => value.trim() !== "",
+    email: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+};
+
+function validateField(field) {
+    const value = field.value.trim();
+    const isValid = validators[field.id](value);
+    const errorElement = document.getElementById(`${field.id}Error`);
+    if (isValid) {
+        errorElement.style.display = "none";
+    } else {
+        errorElement.style.display = "block";
+    }
+    return isValid;
+}
+
+function placeOrder() {
+       generateOverview();
+
+}
+
+function generateOverview() {
+    // Eingabefelder auslesen
+    const firstname = document.getElementById('firstname').value;
+    const lastname = document.getElementById('lastname').value;
+    const street = document.getElementById('street').value;
+    const number = document.getElementById('number').value;
+    const plz = document.getElementById('plz').value;
+    const city = document.getElementById('city').value;
+    const email = document.getElementById('email').value;
+
+    // Überprüfen, ob alle Felder ausgefüllt sind
+    if (!firstname || !lastname || !street || !number || !plz || !city || !email) {
+        alert("Bitte füllen Sie alle Felder aus!");
+        return;
+    }
+
+    // Öffne ein neues Fenster
+    const overviewWindow = window.open('confirmation.html', '_blank', 'width=600,height=400');
+
+    // Erstelle die HTML-Struktur für die Übersicht
+    let overviewHTML = `
+        <html lang="de">
+        <head>
+            <meta charset="UTF-8">
+            <title>Übersicht der Eingabedaten</title>
+            <style>
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                }
+                table, th, td {
+                    border: 1px solid black;
+                }
+                th, td {
+                    padding: 8px;
+                    text-align: left;
+                }
+            </style>
+        </head>
+        <body>
+            <h2>Übersicht der Eingabedaten</h2>
+            <table>
+                <tr>
+                    <th>Feld</th>
+                    <th>Wert</th>
+                </tr>
+                <tr>
+                    <td>Vorname</td>
+                    <td>${firstname}</td>
+                </tr>
+                <tr>
+                <td>Nachname</td>
+                <td>${lastname}</td>
+            </tr>
+                <tr>
+                <td>Straße</td>
+                <td>${street}</td>
+            </tr>
+            <tr>
+                <td>Hausnummer</td>
+                <td>${number}</td>
+          </tr>
+                <tr>
+                <td>PLZ</td>
+                <td>${plz}</td>
+            </tr>
+                <tr>
+                <td>Ort</td>
+                <td>${city}</td>
+            </tr>
+            <tr>
+            <td>E-Mail</td>
+            <td>${email}</td>
+     </tr>
+    
+            </table>
+        </body>
+        </html>
+    `;
+
+    // Schreibe die Übersicht in das neue Fenster
+    overviewWindow.document.write(overviewHTML);
+    overviewWindow.document.close();  // Schließt das Dokument, damit es korrekt angezeigt wird
+}
 
 
