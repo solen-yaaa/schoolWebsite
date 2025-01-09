@@ -30,13 +30,14 @@ function addOrder() {
     var value = getDataByName(getSelectValue());
     var amount = getAmount();
     var includesPoint = amount.includes('.'); // Überprüft, ob die Eingabe einen Punkt enthält
+    var includesComma = amount.includes(',');
 
     // Überprüft, ob die Eingabe eine gültige Zahl ist
     var isNumber = !isNaN(amount);
 
     // Wenn es eine Zahl ist und keine Dezimalzahl (also eine Ganzzahl)
     if (isNumber) {
-        if (includesPoint) {
+        if (includesPoint || includesComma) {
             // Wenn es sich um eine Kommazahl handelt
             errorMsg.style.display = "none";
             errorMsg2.style.display = "block"; // Fehlermeldung für Kommazahl
@@ -103,7 +104,7 @@ function renderTable() {
         cell1.textContent = amount + " x";
         cell2.textContent = productname;
         cell3.textContent = price + " €";
-        cell4.textContent = (price * amount) + " € "
+        cell4.textContent = (price * amount)+ " €";
 
         // Button zum Löschen des Produkts
         var button = document.createElement("button");
@@ -168,6 +169,7 @@ function getTotalPrice() {
         totalPrice += orderList[i].price * orderList[i].amount;
     }
     document.getElementById("total").textContent = `${totalPrice.toFixed(2)} €`;
+    return totalPrice;
 }
 
 window.onload = function() {
@@ -196,13 +198,42 @@ function validateField(field) {
     return isValid;
 }
 
-function placeOrder() {
-       generateOverview();
 
+function getProductsFromTable() {
+    const table = document.getElementById('tableorder'); // Die Tabelle abrufen
+    const rows = table.querySelectorAll('tr'); // Nur die Zeilen im <tbody>
+    const products = [];
+
+    // Jede Zeile iterieren
+    var n = 0;
+    rows.forEach(row => {
+        if(n == 0){
+            n=+1;
+        }
+        else{
+        const cells = row.querySelectorAll('td'); // Alle Zellen in der Zeile
+        console.log(cells);
+        const product = {
+            anz: cells[0].textContent, // Anzahl (erste Spalte)
+            prod: cells[1].textContent,          // Produktname (zweite Spalte)
+            pr: cells[2].textContent, // Preis pro Stück (dritte Spalte)
+            tot: cells[3].textContent,
+            // Gesamt (vierte Spalte)
+        };
+        products.push(product); 
+        
+        }
+            // Produkt ins Array hinzufügen
+    });
+    console.log(products);
+    return products; // Rückgabe des Arrays mit allen Produkten
 }
 
+// Beispiel: Produkte auslesen und anzeigen
+
+
+
 function generateOverview() {
-    // Eingabefelder auslesen
     const firstname = document.getElementById('firstname').value;
     const lastname = document.getElementById('lastname').value;
     const street = document.getElementById('street').value;
@@ -210,25 +241,56 @@ function generateOverview() {
     const plz = document.getElementById('plz').value;
     const city = document.getElementById('city').value;
     const email = document.getElementById('email').value;
+    const products = getProductsFromTable();
+    const totPrice = getTotalPrice();
 
-    // Überprüfen, ob alle Felder ausgefüllt sind
-    if (!firstname || !lastname || !street || !number || !plz || !city || !email) {
-        alert("Bitte füllen Sie alle Felder aus!");
-        return;
-    }
+    console.log('TotalPrice: ', totPrice);
 
-    // Öffne ein neues Fenster
-    const overviewWindow = window.open('confirmation.html', '_blank', 'width=600,height=400');
+    const overviewWindow = window.open('confirmation.html', '_blank');
 
-    // Erstelle die HTML-Struktur für die Übersicht
+    let productsHTML = products.map(product => `
+        <tr>
+            <td>${product.anz}</td>
+            <td>${product.prod}</td>
+            <td>${product.pr}</td>
+            <td>${product.tot}</td>
+        </tr>
+    `).join('');
+
+
     let overviewHTML = `
         <html lang="de">
         <head>
             <meta charset="UTF-8">
-            <title>Übersicht der Eingabedaten</title>
+            <title>Bestellbestätigung</title>
             <style>
-                table {
-                    width: 100%;
+                .backg {
+                    background-image: url(back.jpg);
+                    background-size: 100% 100%;
+                    position: fixed;
+                    bottom: 0;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    z-index: -1;
+                    pointer-events: none;
+                }
+                .table {
+                    background-color: black;
+                    margin-left: 15%;
+                    margin-right: 15%;
+                    width: 70%;
+                    padding: 3%;
+                    border-radius: 20px;
+                }
+                h2 {
+                    text-align: center;
+                    color: white;
+                    font-size: 40px;
+
+                }
+                .address {
+                    width: auto;
                     border-collapse: collapse;
                 }
                 table, th, td {
@@ -238,52 +300,67 @@ function generateOverview() {
                     padding: 8px;
                     text-align: left;
                 }
+                .text {
+                    color: white;
+                    font-size: 20px;
+                    font-family: inherit;
+                }
+                
+                .products {
+                    color: white;
+                    font-size: 30px;
+                    font-weight: bold;
+                }
+                .border {
+                    width: 100%;
+                    border: 1px solid white;
+                    color: white;
+                    font-size: 20px;
+                    font-family: inherit;
+                }
             </style>
         </head>
         <body>
-            <h2>Übersicht der Eingabedaten</h2>
-            <table>
-                <tr>
-                    <th>Feld</th>
-                    <th>Wert</th>
-                </tr>
-                <tr>
-                    <td>Vorname</td>
-                    <td>${firstname}</td>
-                </tr>
-                <tr>
-                <td>Nachname</td>
-                <td>${lastname}</td>
-            </tr>
-                <tr>
-                <td>Straße</td>
-                <td>${street}</td>
-            </tr>
-            <tr>
-                <td>Hausnummer</td>
-                <td>${number}</td>
-          </tr>
-                <tr>
-                <td>PLZ</td>
-                <td>${plz}</td>
-            </tr>
-                <tr>
-                <td>Ort</td>
-                <td>${city}</td>
-            </tr>
-            <tr>
-            <td>E-Mail</td>
-            <td>${email}</td>
-     </tr>
-    
-            </table>
+            <div class="backg">
+                <h2>Deine Bestellung ist bei uns eingegangen</h2>
+                <div class="table">
+                    <table class="address text">
+                        <tr><td>Vorname</td><td>${firstname}</td></tr>
+                        <tr><td>Nachname</td><td>${lastname}</td></tr>
+                        <tr><td>Straße</td><td>${street}</td></tr>
+                        <tr><td>Hausnummer</td><td>${number}</td></tr>
+                        <tr><td>PLZ</td><td>${plz}</td></tr>
+                        <tr><td>Ort</td><td>${city}</td></tr>
+                        <tr><td>E-Mail</td><td>${email}</td></tr>
+                    </table>
+                    <p class="products">Bestellte Produkte</p>
+                    <table id="productsTable" class="border">
+                        <thead>
+                            <tr>
+                                <th>Anzahl</th>
+                                <th>Produkt</th>
+                                <th>Preis pro Stück</th>
+                                <th>Gesamt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${productsHTML}
+                        </tbody>
+                    </table>
+                    <h3 class="text">Gesamtpreis: ${totPrice} €</h3>
+                </div>
+
+            </div>
         </body>
         </html>
     `;
 
-    // Schreibe die Übersicht in das neue Fenster
     overviewWindow.document.write(overviewHTML);
-    overviewWindow.document.close();  // Schließt das Dokument, damit es korrekt angezeigt wird
+    overviewWindow.document.close();
 }
 
 
+function placeOrder() {
+    generateOverview();
+
+}
