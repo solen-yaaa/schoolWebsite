@@ -85,6 +85,7 @@ div#bg {
     margin-right: 10%;
     width: 80%;
     padding: 3%;
+    border-radius: 20px;
 }
       
 .text {
@@ -113,19 +114,19 @@ label {
 }
 input {
   padding: 6px 12px;
-background: rgb(31, 32, 35);
-border: 1px solid rgb(60, 63, 68);
-border-radius: 4px;
-font-size: 13px;
-color: rgb(247, 248, 248);
-height: 25px;
-appearance: none;
-transition: border 0.15s ease 0s;
-:focus{
-    outline: none;
-    box-shadow: none;
-    border-color: rgb(172, 172, 172);
-}
+  background: rgb(31, 32, 35);
+  border: 1px solid rgb(60, 63, 68);
+  border-radius: 4px;
+  font-size: 13px;
+  color: rgb(247, 248, 248);
+  height: 25px;
+  appearance: none;
+  transition: border 0.15s ease 0s;
+  :focus{
+      outline: none;
+      box-shadow: none;
+      border-color: rgb(172, 172, 172);
+  }
 
 }
 
@@ -156,7 +157,7 @@ select {
   border-radius: 4px;
   font-size: 13px;
   color: rgb(247, 248, 248);
-  height: 40px;
+  height: 36px;
   width: 200px;
   appearance: none;
   transition: border 0.15s ease 0s;
@@ -180,10 +181,6 @@ select {
   background-repeat: no-repeat;
 }
 
-
-.amount {
-  height: auto;
-}
 
 .grid {
   display: grid;
@@ -214,6 +211,7 @@ select {
 #tableorder {
   border: 2px;
   border-color: white;
+  text-align: center;
 }
 
 .ordersummary {
@@ -224,4 +222,8 @@ select {
   text-decoration: none;
   font-family: garamond;
   color: rgb(170, 170, 170);
+}
+
+#total {
+  font-weight: bold;
 }
