@@ -30,24 +30,31 @@
                         <div class="grid">
                             <div class="grid-item">
                                 <input type="text" id="firstname" placeholder="Vorname">
+                                <span id="firstnameError" style="color:red; display: none;">Pflichtfeld</span>
                             </div>
                             <div class="grid-item">
                                 <input type="text" id="lastname" placeholder="Nachname"> 
+                                <span id="lastnameError" style="color:red; display: none;">Pflichtfeld</span>
                             </div>
                             <div class="grid-item">
                                 <input type="text" id="street" placeholder="Straße"> 
+                                <span id="streetError" style="color:red; display: none;">Pflichtfeld</span>
                             </div>
                             <div class="grid-item">
                                 <input type="number" id="number" placeholder="Hausnummer"> 
+                                <span id="numberError" style="color:red; display: none;">Pflichtfeld</span>
                             </div>
                             <div class="grid-item">
                                 <input type="text" id="plz" placeholder="PLZ">
+                                <span id="plzError" style="color:red; display: none;">Pflichtfeld. Darf nur Zahlen enthalten und muss genau 5 Zeichen lang sein.</span>
                             </div>
                             <div class="grid-item">
                                 <input type="text" id="city" placeholder="Stadt">  
+                                <span id="cityError" style="color:red; display: none;">Pflichtfeld</span>
                             </div>
                             <div class="grid-item">
                                 <input type="mail" id="email" placeholder="E-Mail"> 
+                                <span id="emailError" style="color:red; display: none;">Pflichtfeld</span>
                             </div>
                          </div>
                        </form>
@@ -87,14 +94,14 @@
                 <div class="right">
                     <table id="tableorder" class="text">
                         <tr>
-                           <th>Anzahl</th>
-                           <th>Produkt</th>
-                           <th>Preis pro Stück</th>
-                           <th>Gesamt</th>
+                           <th id="anz">Anzahl</th>
+                           <th id="prod">Produkt</th>
+                           <th id="pr">Preis pro Stück</th>
+                           <th id="tot">Gesamt</th>
                         </tr>
                     </table> 
                     <div id="total" class="text">0 €</div>
-                    <button type="button" onclick="placeOrder()">Bestellen</button>
+                    <button type="button" id="orderButton" onclick="placeOrder()">Bestellen</button>
                 </div>
             </div>        
     </div>
