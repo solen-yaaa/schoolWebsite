@@ -150,6 +150,7 @@ function deleteOrderByIndex(index) {
 
 // Hinzufügen der Bestellung zum LocalStorage 
 function addOrderList(amount, name, price) {
+   
     const orderList = getOrderList();
     orderList.push({ amount, name, price });
     localStorage.setItem("orderlist", JSON.stringify(orderList));
@@ -175,12 +176,13 @@ function getTotalPrice() {
 window.onload = function() {
     getTotalPrice(); // Ruft getTotalPrice() beim Laden der Seite auf
 };
-/*-----MEIN--EIGENER--VERSUCH----------------------------------------------------------- */
+/*-----MEIN--EIGENER--VERSUCH-----------------------------------------------------------*/
 
 const validators = {
     firstname: value => /^[a-zA-Z]+$/.test(value),
     lastname: value => /^[a-zA-Z]+$/.test(value),
     cityName: value => /^[a-zA-Z]+$/.test(value),
+    houseNumber: value => /^[a-z0-9]+$/.test(value),
     plz: value => /^[0-9]{5}$/.test(value),
     street: value => value.trim() !== "",
     email: value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
@@ -188,14 +190,21 @@ const validators = {
 
 function validateField(field) {
     const value = field.value.trim();
-    const isValid = validators[field.id](value);
-    const errorElement = document.getElementById(`${field.id}Error`);
-    if (isValid) {
-        errorElement.style.display = "none";
+    const validator = validators[field.id]; // Hol die Funktion aus dem Objekt
+
+    if (typeof validator === 'function') {
+        const isValid = validator(value);
+        const errorElement = document.getElementById(`${field.id}Error`);
+        if (isValid) {
+            errorElement.style.display = "none";
+        } else {
+            errorElement.style.display = "block";
+        }
+        return isValid;
     } else {
-        errorElement.style.display = "block";
+        console.error(`Kein Validator für field.id: ${field.id}`);
+        return false; // Rückgabe für ungültige Validierung
     }
-    return isValid;
 }
 
 
@@ -231,136 +240,152 @@ function getProductsFromTable() {
 
 // Beispiel: Produkte auslesen und anzeigen
 
+document.querySelectorAll("#orderForm input").forEach(input => {
+    input.addEventListener("input", () => validateField(input));
+});
 
 
 function generateOverview() {
-    const firstname = document.getElementById('firstname').value;
-    const lastname = document.getElementById('lastname').value;
-    const street = document.getElementById('street').value;
-    const number = document.getElementById('number').value;
-    const plz = document.getElementById('plz').value;
-    const city = document.getElementById('city').value;
-    const email = document.getElementById('email').value;
-    const products = getProductsFromTable();
-    const totPrice = getTotalPrice();
+    const inputs = document.querySelectorAll("#orderForm input");
+    let isFormValid = true;
+    const formData = {};
 
-    console.log('TotalPrice: ', totPrice);
-
-    const overviewWindow = window.open('confirmation.html', '_blank');
-
-    let productsHTML = products.map(product => `
-        <tr>
-            <td>${product.anz}</td>
-            <td>${product.prod}</td>
-            <td>${product.pr}</td>
-            <td>${product.tot}</td>
-        </tr>
-    `).join('');
-
-
-    let overviewHTML = `
-        <html lang="de">
-        <head>
-            <meta charset="UTF-8">
-            <title>Bestellbestätigung</title>
-            <style>
-                .backg {
-                    background-image: url(back.jpg);
-                    background-size: 100% 100%;
-                    position: fixed;
-                    bottom: 0;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    z-index: -1;
-                    pointer-events: none;
-                }
-                .table {
-                    background-color: black;
-                    margin-left: 15%;
-                    margin-right: 15%;
-                    width: 70%;
-                    padding: 3%;
-                    border-radius: 20px;
-                }
-                h2 {
-                    text-align: center;
-                    color: white;
-                    font-size: 40px;
-
-                }
-                .address {
-                    width: auto;
-                    border-collapse: collapse;
-                }
-                table, th, td {
-                    border: 1px solid black;
-                }
-                th, td {
-                    padding: 8px;
-                    text-align: left;
-                }
-                .text {
-                    color: white;
-                    font-size: 20px;
-                    font-family: inherit;
-                }
-                
-                .products {
-                    color: white;
-                    font-size: 30px;
-                    font-weight: bold;
-                }
-                .border {
-                    width: 100%;
-                    border: 1px solid white;
-                    color: white;
-                    font-size: 20px;
-                    font-family: inherit;
-                }
-            </style>
-        </head>
-        <body>
-            <div class="backg">
-                <h2>Deine Bestellung ist bei uns eingegangen</h2>
-                <div class="table">
-                    <table class="address text">
-                        <tr><td>Vorname</td><td>${firstname}</td></tr>
-                        <tr><td>Nachname</td><td>${lastname}</td></tr>
-                        <tr><td>Straße</td><td>${street}</td></tr>
-                        <tr><td>Hausnummer</td><td>${number}</td></tr>
-                        <tr><td>PLZ</td><td>${plz}</td></tr>
-                        <tr><td>Ort</td><td>${city}</td></tr>
-                        <tr><td>E-Mail</td><td>${email}</td></tr>
-                    </table>
-                    <p class="products">Bestellte Produkte</p>
-                    <table id="productsTable" class="border">
-                        <thead>
-                            <tr>
-                                <th>Anzahl</th>
-                                <th>Produkt</th>
-                                <th>Preis pro Stück</th>
-                                <th>Gesamt</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${productsHTML}
-                        </tbody>
-                    </table>
-                    <h3 class="text">Gesamtpreis: ${totPrice} €</h3>
+    inputs.forEach(input => {
+        if (!validateField(input)) {
+            isFormValid = false;
+        }
+        formData[input.id] = input.value.trim();
+    });
+    
+    if(isFormValid) {
+        const firstname = document.getElementById('firstname').value;
+        const lastname = document.getElementById('lastname').value;
+        const street = document.getElementById('street').value;
+        const houseNumber = document.getElementById('houseNumber').value;
+        const plz = document.getElementById('plz').value;
+        const cityName = document.getElementById('cityName').value;
+        const email = document.getElementById('email').value;
+        const products = getProductsFromTable();
+        const totPrice = getTotalPrice();
+    
+        console.log('TotalPrice: ', totPrice);
+    
+        const overviewWindow = window.open('confirmation.html', '_self');
+    
+        let productsHTML = products.map(product => `
+            <tr>
+                <td>${product.anz}</td>
+                <td>${product.prod}</td>
+                <td>${product.pr}</td>
+                <td>${product.tot}</td>
+            </tr>
+        `).join('');
+    
+    
+        let overviewHTML = `
+            <html lang="de">
+            <head>
+                <meta charset="UTF-8">
+                <title>Bestellbestätigung</title>
+                <style>
+                    .backg {
+                        background-image: url(back.jpg);
+                        background-size: 100% 100%;
+                        position: fixed;
+                        bottom: 0;
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        z-index: -1;
+                        pointer-events: none;
+                    }
+                    .table {
+                        background-color: black;
+                        margin-left: 15%;
+                        margin-right: 15%;
+                        width: 70%;
+                        padding: 3%;
+                        border-radius: 20px;
+                    }
+                    h2 {
+                        text-align: center;
+                        color: white;
+                        font-size: 40px;
+    
+                    }
+                    .address {
+                        width: auto;
+                        border-collapse: collapse;
+                    }
+                    table, th, td {
+                        border: 1px solid black;
+                    }
+                    th, td {
+                        padding: 8px;
+                        text-align: left;
+                    }
+                    .text {
+                        color: white;
+                        font-size: 20px;
+                        font-family: inherit;
+                    }
+                    
+                    .products {
+                        color: white;
+                        font-size: 30px;
+                        font-weight: bold;
+                    }
+                    .border {
+                        width: 100%;
+                        border: 1px solid white;
+                        color: white;
+                        font-size: 20px;
+                        font-family: inherit;
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="backg">
+                    <h2>Deine Bestellung ist bei uns eingegangen</h2>
+                    <div class="table">
+                        <table class="address text">
+                            <tr><td>Vorname</td><td>${firstname}</td></tr>
+                            <tr><td>Nachname</td><td>${lastname}</td></tr>
+                            <tr><td>Straße</td><td>${street}</td></tr>
+                            <tr><td>Hausnummer</td><td>${houseNumber}</td></tr>
+                            <tr><td>PLZ</td><td>${plz}</td></tr>
+                            <tr><td>Ort</td><td>${cityName}</td></tr>
+                            <tr><td>E-Mail</td><td>${email}</td></tr>
+                        </table>
+                        <p class="products">Bestellte Produkte</p>
+                        <table id="productsTable" class="border">
+                            <thead>
+                                <tr>
+                                    <th>Anzahl</th>
+                                    <th>Produkt</th>
+                                    <th>Preis pro Stück</th>
+                                    <th>Gesamt</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${productsHTML}
+                            </tbody>
+                        </table>
+                        <h3 class="text">Gesamtpreis: ${totPrice} €</h3>
+                    </div>
+    
                 </div>
-
-            </div>
-        </body>
-        </html>
-    `;
-
-    overviewWindow.document.write(overviewHTML);
-    overviewWindow.document.close();
+            </body>
+            </html>
+        `;
+    
+        overviewWindow.document.write(overviewHTML);
+        overviewWindow.document.close();
+    
+    }
 }
 
 
 function placeOrder() {
     generateOverview();
-
 }

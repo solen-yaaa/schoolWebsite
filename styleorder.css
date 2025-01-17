@@ -83,6 +83,7 @@ div#bg {
     background-color: black;
     margin-left: 10%;
     margin-right: 10%;
+    margin-bottom: 10%;
     width: 80%;
     padding: 3%;
     border-radius: 20px;
@@ -97,7 +98,7 @@ div#bg {
 .impressum {
  width: 100%;
  height: auto;
- position: fixed;
+
  display: flex;
  background-color: black;
  bottom: 0;
@@ -105,7 +106,7 @@ div#bg {
  margin-top:5%;
  
  .text {
-    font-size: 20px;
+    font-size: 20px
  }
 }
 
