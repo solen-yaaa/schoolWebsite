@@ -1,5 +1,6 @@
 body {
     overflow-x: hidden;
+    margin: 0;
  }
  
  div#bg {
@@ -87,6 +88,7 @@ body {
  .pics_left{
     .box_left {
         width: 30%;
+        padding: 5%;
         display: flex;
         align-items: center;
      }
@@ -119,18 +121,21 @@ body {
         width: 33.33%;
         display: flex;
         align-items: center;
+        padding: 5%;
      }
 
      .box_middle {
         width: 33.33%;
         display: flex;
         align-items: center;
+        padding: 5%;
      }
 
      .box_right {
         width: 33.33%;
         display: flex;
         align-items: center;
+        padding: 5%;
  }
 }
 
@@ -143,7 +148,7 @@ body {
 
  .pics {
     width: 100%;
-    margin: 20%;
+    /* margin: 20%; */
     border-radius: 5%;
  }
 
