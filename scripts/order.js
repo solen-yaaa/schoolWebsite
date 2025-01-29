@@ -176,7 +176,6 @@ function getTotalPrice() {
 window.onload = function() {
     getTotalPrice(); // Ruft getTotalPrice() beim Laden der Seite auf
 };
-/*-----MEIN--EIGENER--VERSUCH-----------------------------------------------------------*/
 
 const validators = {
     firstname: value => /^[a-zA-Z]+$/.test(value),
